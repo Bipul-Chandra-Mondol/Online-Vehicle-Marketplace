@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero section start -->
+<section class="bg-white dark:bg-gray-900">
+    <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+        <div class="mr-auto place-self-center lg:col-span-7">
+            <h1
+                class="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white">
+                {{specific_category.title}}</h1>
+
+            <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
+                {{specific_category.description}}
+            </p>
+
+
+
+            {% if not request.user.is_authenticated %}
+            <a href="{% url 'login' %}"
+                class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:ring-gray-500 dark:focus:ring-gray-900">
+                Get started With Login
+                <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </a>
+
+            {% endif %}
+
+
+
+
+        </div>
+        <div class=" lg:mt-0 lg:col-span-5 lg:flex">
+
+
+            <img src="{{specific_category.cat_image.url}}" alt="Category Image" class="rounded-xl">
+        </div>
+    </div>
+</section>
+<!-- Hero section end -->
+
+
+<section class=" body-font">
+    <h1 class="text-center text-5xl font-bold pt-10">Choose Your {{specific_category.category_name}} </h1>
+    <div class="container px-5 py-24 mx-auto">
+        <div class="flex flex-wrap -m-4">
+
+            {% for product in products %}
+
+            <div class="lg:w-1/4 md:w-1/2 p-4 w-full cursor-pointer">
+                <a class="block relative h-48 rounded overflow-hidden">
+                    <img alt="ecommerce" class="object-cover object-center w-full h-full block"
+                        src="{{product.images.url}}">
+                </a>
+                <a href="{{product.get_url}}">
+                    <div class="mt-4">
+                        <p class="text-gray-500 text-xs tracking-widest title-font mb-1">MODEL: {{product.mode_name}}
+                        </p>
+                        <h2 class="text-gray-900 title-font text-lg font-medium"> ENGINE: {{product.engine}}</h2>
+                        <p class="text-gray-500 text-xs tracking-widest title-font mb-1">PRICE: ${{product.price}}
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

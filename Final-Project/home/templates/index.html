@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="relative overflow-hidden bg-white">
+    <div class="pt-16 pb-80 sm:pt-24 sm:pb-40 lg:pt-40 lg:pb-48">
+        <div class="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
+            <div class="sm:max-w-lg">
+                <h1 class="font text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Find your next Vehicle with
+                    us</h1>
+                <p class="mt-4 text-xl text-gray-500">Leading online automotive marketplace in Bangladesh</p>
+
+            </div>
+            {% if not request.user.is_authenticated %}
+            <a href="{% url 'login' %}"
+                class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:ring-gray-500 dark:focus:ring-gray-900 mt-5">
+                Get started With Login
+                <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </a>
+
+            {% endif %}
+            <div>
+                <div class="mt-10">
+                    <!-- Decorative image grid -->
+                    <div aria-hidden="true"
+                        class="pointer-events-none lg:absolute lg:inset-y-0 lg:mx-auto lg:w-full lg:max-w-7xl">
+                        <div
+                            class="absolute transform sm:left-1/2 sm:top-0 sm:translate-x-8 lg:left-1/2 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-8">
+                            <div class="flex items-center space-x-6 lg:space-x-8">
+                                <div class="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
+                                    <div class="h-64 w-44 overflow-hidden rounded-lg sm:opacity-0 lg:opacity-100">
+                                        <img src="{% static 'images/tim-meyer-TdfAJnaA3k0-unsplash.jpg' %}" alt=""
+                                            class="h-full w-full object-cover object-center">
+                                    </div>
+                                    <div class="h-64 w-44 overflow-hidden rounded-lg">
+                                        <img src="{% static 'images/bmw5.png' %}" alt=""
+                                            class="h-full w-full object-cover object-center">
+                                    </div>
+                                </div>
+                                <div class="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
+                                    <div class="h-64 w-44 overflow-hidden rounded-lg">
+                                        <img src="{% static 'images/joao-paulo-m-ramos-paulo-WduAWhzxmpA-unsplash.jpg' %}"
+                                            alt="" class="h-full w-full object-cover object-center">
+                                    </div>
+                                    <div class="h-64 w-44 overflow-hidden rounded-lg">
+                                        <img src="{% static 'images/Jeep_Gladiator_Mojave.jpg' %}" alt=""
+                                            class="h-full w-full object-cover object-center">
+                                    </div>
+                                    <div class="h-64 w-44 overflow-hidden rounded-lg">
+                                        <img src="{% static 'images/What-are-Automobile-Spare-Parts-and-how-can-they-be-Used.jpg' %}"
+                                            alt="" class="h-full w-full object-cover object-center">
+                                    </div>
+                                </div>
+                                <div class="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
+                                    <div class="h-64 w-44 overflow-hidden rounded-lg">
+                                        <img src="{% static 'images/CB1000R.jpg' %}" alt=""
+                                            class="h-full w-full object-cover object-center">
+                                    </div>
+                                    <div class="h-64 w-44 overflow-hidden rounded-lg">
+                                        <img src="{% static 'images/bmw2.png' %}" alt=""
+                                            class="h-full w-full object-cover object-center">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class=" body-font">
+    <h1 class="text-center text-5xl font-bold pt-10">Popular Products </h1>
+    <div class="container px-5 py-24 mx-auto">
+        <div class="flex flex-wrap -m-4">
+
+            {% for product in products %}
+
+            <div class="lg:w-1/4 md:w-1/2 p-4 w-full ">
+                <a class="block relative h-48 rounded overflow-hidden">
+                    <img alt="ecommerce" class="object-cover object-center w-full h-full block"
+                        src="{{product.images.url}}">
+                </a>
+                <a href="{{product.get_url}}">
+                    <div class="mt-4 cursor-pointer">
+                        <p class="text-gray-500 text-xs tracking-widest title-font mb-1">MODEL: {{product.mode_name}}
+
+                            <h2 class="text-gray-900 title-font text-lg font-medium">ENGINE: {{product.engine}} </h2>
+                            <p class="text-gray-500 text-xs tracking-widest title-font mb-1 ">PRICE:
+                                ${{product.price}}
+                            </p>
+                    </div>
+                </a>
+            </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+{% include 'pagination.html' with queryset=products custom_range=custom_range %}
+
+{% endblock content %}
