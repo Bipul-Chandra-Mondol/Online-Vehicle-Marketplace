@@ -1,15 +1,15 @@
 # Online-Vehicle-Marketplace
-// how to run this project
-// process are given bellow
-// important commend
-pip install virtualenv 
-python -m venv env
-env\Scripts\activate
-cd Final-Project
-pip install -r requirements.txt
-//open git bash terminal
-cd Final-Project
-npm i 
-npm run build
-//back to  powershell and run 
-python manage.py runserver 
+// how to run this project </br>
+// process are given bellow </br>
+// important commend </br>
+pip install virtualenv </br>
+python -m venv env </br>
+env\Scripts\activate </br>
+cd Final-Project </br>
+pip install -r requirements.txt </br>
+//open git bash terminal </br>
+cd Final-Project </br>
+npm i  </br>
+npm run build </br>
+//back to  powershell and run  </br>
+python manage.py runserver  </br>
