@@ -16,3 +16,10 @@ def home(request):
 def contactPage(request):
     return render(request, 'contact.html')
 
+# search functionality
+from django.db.models import Q
+def search_products(request):
+    query = request.GET.get('q')
+    products = Product.objects.filter(
+        Q(mode_name__icontains=query)| Q(description__icontains=query))
+    return render(request, 'search_result.html', {'products': products})

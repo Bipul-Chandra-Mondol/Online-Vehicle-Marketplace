@@ -9,11 +9,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vehicle Buying Experience</title>
-    <link rel="shortcut icon" href="https://purepng.com/public/uploads/large/purepng.com-bmw-car-logologocar-brand-logoscarsbmw-car-logo-1701527428054l1xd2.png" type="image/x-icon">
+    <link rel="shortcut icon"
+        href="https://purepng.com/public/uploads/large/purepng.com-bmw-car-logologocar-brand-logoscarsbmw-car-logo-1701527428054l1xd2.png"
+        type="image/x-icon">
     {% compress css %}
     <link rel="stylesheet" href="{% static 'src/output.css' %}">
     {% endcompress %}
-    
+
     <!-- font awesome link -->
     <script src="https://kit.fontawesome.com/b3dfa55ee8.js" crossorigin="anonymous"></script>
     <style>
@@ -25,6 +27,10 @@
         .nav-icon {
             font-size: 1.25rem;
         }
+
+        .dropdownp {
+            color: red;
+        }
     </style>
 </head>
 
@@ -32,52 +38,95 @@
     <header>
         <!-- Nav bar start -->
 
-        <nav class=" py-2 bg-white px-6 md:px-10 lg:px-8 flex flex-wrap items-center justify-between">
+        <nav class=" py-1 bg-gray-100 px-6 md:px-10 lg:px-8 flex flex-wrap items-center justify-between">
             <!-- Logo and Business Name -->
             <div class="flex items-center">
-                <img src="https://greatriverfcu.org/wp-content/uploads/2020/07/home-page-icons-02-300x300.png" alt="Logo" class="w-10 h-10 mr-2">
+                <img src="https://greatriverfcu.org/wp-content/uploads/2020/07/home-page-icons-02-300x300.png"
+                    alt="Logo" class="w-10 h-10 mr-2">
                 <h1 class="text-black font-bold text-base">Vehicles Marketplace</h1>
             </div>
-    
+
             <!-- Mobile Menu Toggle -->
             <div class="flex items-center md:hidden">
                 <button class="text-black focus:outline-none"><i class="fas fa-bars"></i></button>
             </div>
-    
+
             <!-- Navigation Links -->
             <ul class="hidden md:flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-8 ml-28">
                 <li><a href="{% url 'home' %}" class="text-gray-900 nav-link text-lg">Home</a></li>
                 <!-- dynamic navbar -->
-                
+
                 {% for category in links %}
-                <li><a href="{{category.get_url}}" class="text-black nav-link text-lg">{{category.category_name}}</a></li>
+                <li><a href="{{category.get_url}}" class="text-black nav-link text-lg">{{category.category_name}}</a>
+                </li>
                 {% endfor %}
                 <li><a href="{% url 'contact' %}" class="text-black nav-link text-lg">Contact</a></li>
             </ul>
-    
+
             <!-- Action Icons -->
             <div class="hidden md:flex items-center ">
                 <div class="">
                     <button class="text-gray-600 nav-icon ml-52"><i class="fa-solid fa-code-compare fa-lg"></i></button>
-                    <span class="text-base">2</span>   
+                    <span class="text-base">2</span>
                 </div>
                 <div>
-                    <button class="text-gray-500 nav-icon ml-7"><i class="fa-solid fa-cart-shopping fa-lg"></i></button>
-                    <span class="text-base">5</span>
+                    <a href="{% url 'cart' %}" class="text-gray-500 nav-icon ml-7"><i
+                            class="fa-solid fa-cart-shopping fa-lg"></i></a>
+                    <span class="text-base">{{cart_count}}</span>
                 </div>
-                <button class="text-gray-900 nav-icon mr-2 ml-7"><i class="fa-regular fa-user fa-lg"></i></button>
+                
+                {% if request.user.is_authenticated %}
+                    <!-- profile buttons -->
+                    <div class="relative inline-block text-left">
+                        <button class="text-gray-900 nav-icon mr-2 ml-7" id="profileButton">
+                            <i class="fa-regular fa-user fa-lg"></i>
+                        </button>
+                        <!-- profile dropdown menu -->
+                        <div id="profileDropdown"
+                            class="hidden absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg z-50">
+                            <ul class="py-2 dropdownp">
+                                <li><a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Dashboard</a></li>
+                                <li><a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Settings</a></li>
+                                <li><a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Log Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Include the JavaScript code here -->
+                    <script>
+                        const profileButton = document.getElementById('profileButton');
+                        const profileDropdown = document.getElementById('profileDropdown');
+
+                        profileButton.addEventListener('click', () => {
+                            profileDropdown.classList.toggle('hidden');
+                        });
+                    </script>
+                {% else %}
+                    <!-- login buttons -->
+                    <div>
+                        <a href="{% url 'login' %}" class="text-gray-700 nav-icon mr-2 ml-7">
+                            <i class="fa-solid fa-right-to-bracket fa-lg"></i>
+                        </a>
+                    </div>
+                {% endif %}
+                    
+
             </div>
         </nav>
         <!-- search -->
-        <div class="text-center px-6 bg-white">
-            <!-- Search Input -->
-            <div class="flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0 md:space-x-2">
-                <input type="text" class="md:w-1/5 px-10 py-1 rounded-full bg-gray-200 text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-gray-200"
-                    placeholder="Search for vehicles...">
-                    <button class="bg-gray-400 text-white px-2 py-1 rounded-full hover:bg-gray-500 focus:outline-none">Search</button>
-                
+        <form method="GET" action="{% url 'search_product' %}">
+            <div class="text-center px-6 bg-white">
+                <!-- Search Input -->
+                <div class="flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0 md:space-x-2">
+                    <input type="text" name="q"
+                        class="md:w-1/5 px-10 py-1 rounded-full bg-gray-200 text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-gray-200"
+                        placeholder="Search for vehicles...">
+                    <button
+                        class="bg-gray-400 text-white px-2 py-1 rounded-full hover:bg-gray-500 focus:outline-none">Search</button>
+    
+                </div>
             </div>
-        </div>
+        </form>
 
         <!-- Nav bar end -->
     </header>
@@ -157,8 +206,8 @@
             </div>
         </div>
         <div class="px-4 py-6 bg-gray-100 dark:bg-gray-700 md:flex md:items-center md:justify-between">
-            <span class="text-sm text-gray-500 dark:text-gray-300 sm:text-center">© 2023 <a
-                    href="#">Warriors Mart™</a>. All Rights Reserved.
+            <span class="text-sm text-gray-500 dark:text-gray-300 sm:text-center">© 2023 <a href="#">Warriors Mart™</a>.
+                All Rights Reserved.
             </span>
             <div class="flex mt-4 space-x-6 sm:justify-center md:mt-0">
                 <a href="#" class="text-gray-400 hover:text-gray-900 dark:hover:text-white">

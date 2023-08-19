@@ -4,8 +4,8 @@ from .models import Product
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('mode_name', 'price', 'stock',
-                    'category', 'modified_date', 'is_available')
+    list_display = ('id','mode_name', 'price', 'stock',
+                    'category', 'modified_date', 'is_available','engine')
 
     prepopulated_fields = {'slug': ('mode_name',)}
 
