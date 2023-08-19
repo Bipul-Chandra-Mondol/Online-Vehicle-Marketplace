@@ -7,8 +7,8 @@ from django.urls import reverse
 class Product(models.Model):
     mode_name = models.CharField(max_length=150, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
-    engine = models.CharField(max_length=200)
-    mpg = models.CharField(max_length=200)
+    engine = models.CharField(max_length=200,blank=True)
+    mpg = models.CharField(max_length=200,blank=True)
 
     description = models.TextField(max_length=500, blank=True)
     price = models.IntegerField()
