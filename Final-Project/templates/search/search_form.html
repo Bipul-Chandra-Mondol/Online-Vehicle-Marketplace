@@ -1,11 +1,48 @@
 
-<div class="flex items-center justify-center">
-    <form action="#" method="get" class="w-full max-w-sm">
-      <div class="flex items-center border-b-2 border-teal-500 py-2">
-        <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" name="keywords" placeholder="Search">
-        <input class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded" type="submit" value="Search">
-      </div>
-    </form>
+<form method="GET" action="{% url 'search_product' %}" id="search-form" autocomplete="off">
+  <div class="text-center px-6 bg-white">
+  <!-- Search Input -->
+  <div class="flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0 md:space-x-2">
+  <input type="text" name="q" id="search-input"
+  class="md:w-1/4 px-5 py-1 rounded-full bg-gray-200 text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-gray-200"
+  placeholder="Search for vehicles...">
+  <button type="submit" id="search-button"
+  class="bg-gray-700 text-white px-3 py-1 rounded-full hover:bg-blue-900 focus:outline-none">Search</button>
   </div>
+  <!-- Suggestions Container -->
+  <div id="search-suggestions" class="suggestions"></div>
+  </div>
+  </form>
 
-  {% comment %} {% url 'search' %} {% endcomment %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    const searchInput = $('#search-input');
+    const searchSuggestions = $('#search-suggestions');
+    const searchForm = $('#search-form');
+
+    searchInput.on('input', function () {
+      const query = searchInput.val();
+
+      $.ajax({
+        url: `/search_products/?q=${encodeURIComponent(query)}`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+          const suggestionsHTML = data.map(item => `<div class="suggestion" data-query="${item.mode_name}">${item.mode_name}</div>`).join('');
+          searchSuggestions.html(suggestionsHTML);
+        },
+        error: function (error) {
+          console.error('Error fetching suggestions:', error);
+        }
+      });
+    });
+
+    // Handle suggestion click
+    searchSuggestions.on('click', '.suggestion', function() {
+      const clickedQuery = $(this).data('query');
+      searchInput.val(clickedQuery);
+      searchForm.submit();
+    });
+  });
+</script>
