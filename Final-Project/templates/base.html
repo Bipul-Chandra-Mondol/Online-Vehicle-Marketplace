@@ -18,6 +18,7 @@
 
     <!-- font awesome link -->
     <script src="https://kit.fontawesome.com/b3dfa55ee8.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .nav-link:hover {
             color: #c8c8f8;
@@ -30,6 +31,27 @@
 
         .dropdownp {
             color: red;
+        }
+
+        /* style for search suggestion */
+        .suggestions {
+            /* background-color: rgb(248, 233, 233); */
+            width: 20%;
+            margin: auto;
+
+        }
+
+        /* Add cursor:pointer to show a clickable cursor */
+        .suggestion {
+            cursor: pointer;
+            background-color: rgb(249, 245, 245);
+            margin-top: 1px;
+        }
+
+        /* Change hover text color to blue */
+        .suggestion:hover {
+            color: blue;
+            /* Add any other hover styles you want */
         }
     </style>
 </head>
@@ -74,59 +96,48 @@
                             class="fa-solid fa-cart-shopping fa-lg"></i></a>
                     <span class="text-base">{{cart_count}}</span>
                 </div>
-                
+
                 {% if request.user.is_authenticated %}
-                    <!-- profile buttons -->
-                    <div class="relative inline-block text-left">
-                        <button class="text-gray-900 nav-icon mr-2 ml-7" id="profileButton">
-                            <i class="fa-regular fa-user fa-lg"></i>
-                        </button>
-                        <!-- profile dropdown menu -->
-                        <div id="profileDropdown"
-                            class="hidden absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg z-50">
-                            <ul class="py-2 dropdownp">
-                                <li><a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Dashboard</a></li>
-                                <li><a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Settings</a></li>
-                                <li><a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Log Out</a></li>
-                            </ul>
-                        </div>
+                <!-- profile buttons -->
+                <div class="relative inline-block text-left">
+                    <button class="text-gray-900 nav-icon mr-2 ml-7" id="profileButton">
+                        <i class="fa-regular fa-user fa-lg"></i>
+                    </button>
+                    <!-- profile dropdown menu -->
+                    <div id="profileDropdown"
+                        class="hidden absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg z-50">
+                        <ul class="py-2 dropdownp">
+                            <li><a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Dashboard</a></li>
+                            <li><a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Settings</a></li>
+                            <li><a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Log
+                                    Out</a></li>
+                        </ul>
                     </div>
+                </div>
 
-                    <!-- Include the JavaScript code here -->
-                    <script>
-                        const profileButton = document.getElementById('profileButton');
-                        const profileDropdown = document.getElementById('profileDropdown');
+                <!-- Include the JavaScript code here -->
+                <script>
+                    const profileButton = document.getElementById('profileButton');
+                    const profileDropdown = document.getElementById('profileDropdown');
 
-                        profileButton.addEventListener('click', () => {
-                            profileDropdown.classList.toggle('hidden');
-                        });
-                    </script>
+                    profileButton.addEventListener('click', () => {
+                        profileDropdown.classList.toggle('hidden');
+                    });
+                </script>
                 {% else %}
-                    <!-- login buttons -->
-                    <div>
-                        <a href="{% url 'login' %}" class="text-gray-700 nav-icon mr-2 ml-7">
-                            <i class="fa-solid fa-right-to-bracket fa-lg"></i>
-                        </a>
-                    </div>
+                <!-- login buttons -->
+                <div>
+                    <a href="{% url 'login' %}" class="text-gray-700 nav-icon mr-2 ml-7">
+                        <i class="fa-solid fa-right-to-bracket fa-lg"></i>
+                    </a>
+                </div>
                 {% endif %}
-                    
+
 
             </div>
         </nav>
         <!-- search -->
-        <form method="GET" action="{% url 'search_product' %}">
-            <div class="text-center px-6 bg-white">
-                <!-- Search Input -->
-                <div class="flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0 md:space-x-2">
-                    <input type="text" name="q"
-                        class="md:w-1/5 px-10 py-1 rounded-full bg-gray-200 text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-gray-200"
-                        placeholder="Search for vehicles...">
-                    <button
-                        class="bg-gray-400 text-white px-2 py-1 rounded-full hover:bg-gray-500 focus:outline-none">Search</button>
-    
-                </div>
-            </div>
-        </form>
+        {% include 'search/search_form.html' %}
 
         <!-- Nav bar end -->
     </header>
