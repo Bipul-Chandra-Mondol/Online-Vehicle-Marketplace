@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- sign up page start -->
+<div class="container mx-auto px-4 py-8 md:py-6">
+    <div>
+        <img class="mx-auto h-13 w-24" src="{% static 'images/warriors-mart.png' %}" alt="Your Company">
+    </div>
+    <div class="w-1/2 mx-auto">
+        <div class="text-center mb-6">
+            <h1 class="text-3xl font-bold text-gray-800">Create Account</h1>
+        </div>
+        <form class="space-y-1" action="{% url 'registration' %}" method='POST'> {% csrf_token %}
+            {% for field in form  %}
+            <div>
+                <label class="block text-gray-800 font-bold mb-2">{{field.label}}</label>
+                {{field}}
+
+            </div>
+            {% if field.help_text %}
+            <small>{{field.help_text}}</small>
+            {% endif %}
+
+            {% for error in field.errors %}
+            <p style="color:red">{{error}}</p>
+            {% endfor %}
+
+
+            {% endfor %}
+            <div>
+                <button type="submit"
+                    class="w-full bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-600 focus:outline-none focus:shadow-outline-indigo mb-2">Create
+                    Account</button>
+                <p class="font-normal">Already have an Account?</p>
+                <a href="{% url 'login' %}" class="text-sm text-blue-500 focus:text-blue-800">Login</a>
+            </div>
+
+        </form>
+    </div>
+    <!-- sign up page end -->
+
+
+    {% endblock content %}

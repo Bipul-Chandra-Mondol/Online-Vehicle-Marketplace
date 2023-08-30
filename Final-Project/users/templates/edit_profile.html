@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tailwind_filters %} 
+
+{% block title %}
+    Edit Profile
+{% endblock title %}
+    
+{% block content %}
+<!-- sign up page start -->
+<div class="container mx-auto px-4 py-8 md:py-6">
+    <div>
+        <img class="mx-auto h-13 w-24" src="{% static 'images/warriors-mart.png' %}" alt="Your Company">
+    </div>
+    <div class="w-1/2 mx-auto">
+        <div class="text-center mb-6">
+            <h1 class="text-3xl font-bold text-blue-800">Edit Your Profile</h1>
+        </div>
+        <form class="space-y-1"  method='POST'>
+            {% csrf_token %}
+            <!-- {{form|crispy}} -->
+            {% for field in form  %}
+            <div>
+                <label class="block text-gray-800 font-bold mb-2">{{field.label}}</label>
+                {{field}}
+
+            </div>
+            {% if field.help_text %}
+            <small>{{field.help_text}}</small>
+            {% endif %}
+
+            {% for error in field.errors %}
+            <p style="color:red">{{error}}</p>
+            {% endfor %}
+
+            {% endfor %}
+            <div>
+                <button type="submit"
+                    class="w-full bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-600 focus:outline-none focus:shadow-outline-indigo mb-2">Save</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!-- sign up page end -->
+    
+
+{% endblock content %}
