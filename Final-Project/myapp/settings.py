@@ -46,9 +46,15 @@ INSTALLED_APPS = [
     'items',
     'carts',
     'users',
+    'compare',
     
     "django_browser_reload",
+    "crispy_forms",
+    "crispy_tailwind",
 ]
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+
+CRISPY_TEMPLATE_PACK = "tailwind"
 
 MIDDLEWARE = [
     'django_browser_reload.middleware.BrowserReloadMiddleware',
